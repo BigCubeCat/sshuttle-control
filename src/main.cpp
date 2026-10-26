@@ -12,7 +12,9 @@ int main(int argc, char* argv[]) {
     QCoreApplication::setOrganizationName(QStringLiteral("ShuttleControl"));
     QCoreApplication::setApplicationVersion(QStringLiteral("0.1.0"));
 
-    QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
+    if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
+        QQuickStyle::setStyle(QStringLiteral("Basic"));
+    }
 
     TunnelController controller;
     QQmlApplicationEngine engine;
