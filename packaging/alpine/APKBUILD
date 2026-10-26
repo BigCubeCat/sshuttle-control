@@ -1,0 +1,57 @@
+# Maintainer: Shuttle Control contributors
+
+pkgname=shuttle-control
+pkgver=0.1.0
+pkgrel=0
+
+pkgdesc="Kirigami GUI for controlling an sshuttle tunnel"
+url="https://github.com/BigCubeCat/shuttle-control"
+
+# Архитектуры, для которых предусмотрена сборка.
+arch="aarch64 x86_64"
+
+# Укажите фактическую лицензию проекта перед распространением.
+license="custom"
+
+options="!check" # Автоматические тесты пока отсутствуют.
+
+makedepends="
+    cmake
+    extra-cmake-modules
+    qt6-qtbase-dev
+    qt6-qtdeclarative-dev
+    kirigami-dev
+"
+
+# QML-модули не всегда обнаруживаются автоматическим
+# анализом зависимостей исполняемого файла.
+depends="
+    kirigami
+    qt6-qtdeclarative
+    qqc2-desktop-style
+    iputils
+    polkit
+"
+
+source="$pkgname-$pkgver.tar.gz"
+builddir="$srcdir/$pkgname-$pkgver"
+
+build() {
+    cmake \
+        -S "$builddir" \
+        -B "$builddir/build" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=/usr
+
+    cmake --build "$builddir/build" \
+        --parallel "${JOBS:-2}"
+}
+
+package() {
+    DESTDIR="$pkgdir" \
+        cmake --install "$builddir/build"
+}
+
+# Контрольную сумму создаёт build-apk.sh
+# для актуального архива исходников.
+sha512sums=""
