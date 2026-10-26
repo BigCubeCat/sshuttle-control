@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Shuttle Control
+Name[ru]=Управление sshuttle
+Comment=Control an sshuttle tunnel
+Comment[ru]=Графическое управление туннелем sshuttle
+Exec=shuttle-control
+Icon=network-vpn
+Terminal=false
+Categories=Network;Utility;
